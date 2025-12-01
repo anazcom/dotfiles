@@ -1,0 +1,129 @@
+{
+    "modules-left": [
+        "hyprland/workspaces"
+    ],
+
+    "modules-center": [
+       "clock"
+    ],
+
+    "modules-right": [
+       "memory",
+       "cpu",
+       "backlight",
+       "network",
+       "bluetooth",
+       "pulseaudio",
+       "pulseaudio#microphone",
+       "battery"
+    ],
+
+    "hyprland/workspaces": {
+            "all-outputs": true,
+            "warp-on-scroll": false,
+            "enable-bar-scroll": true,
+            "disable-scroll-wraparound": true,
+            "active-only": false,
+            "format": "{icon}",
+            "format-icons": {
+                "1": "1",
+                "2": "2",
+                "3": "3",
+                "4": "4",
+                "5": "5",
+                "default": "•"
+            }
+        },
+
+    "clock": {
+        "timezone": "America/New_York",
+        "tooltip-format": "<span><tt><small>{calendar}</small></tt></span>",
+        "format": "{:%h %d, %H:%M}",
+        "calendar": {
+            "format": {
+                "days": "<span weight='normal'>{}</span>",
+                "months": "<span color='#cdd6f4'><b>{}</b></span>",
+                "today": "<span color='#f38ba8' weight='700'><u>{}</u></span>",
+                "weekdays": "<span color='#f9e2af'><b>{}</b></span>",
+                "weeks": "<span color='#a6e3a1'><b>W{}</b></span>"
+            }
+        },
+        "actions": { "on-click-right": "mode" }
+      },
+
+      "memory": {
+        "interval": 15,
+        "format": " {used:0.1f}G",
+        "tooltip-format": "Memory - {used:0.1f}G/{total:0.1f}G"
+      },
+      
+      "cpu": {
+        "interval": 1,
+        "format": " {icon0}{icon1}{icon2}{icon3} {usage:>2}%",
+        "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
+        "on-click": "ghostty -e htop"
+      },
+
+      "backlight": {
+        "format": "{icon}",
+        "format-icons": ["","󰃜", "󰃛", "󰃞","󰃝","󰃟","󰃠"],
+        "tooltip": false,
+        "on-scroll-down": "brightnessctl set 5%-",
+        "on-scroll-up": "brightnessctl set +5%"
+      },
+
+      "network": {
+        "format-wifi": "󰤢",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "󰤠",
+        "interval": 5,
+        "tooltip-format": "{essid} ({signalStrength}%)"
+     },
+
+    "bluetooth": {
+        "format": "󰂲",
+        "format-on": "{icon}",
+        "format-off": "{icon}",
+        "format-connected":"{icon}",
+        "format-icons":{
+            "on":"󰂯",
+            "off": "󰂲",
+            "connected": ""
+            },
+        "tooltip-format-connected":"{device_enumerate}"
+      },
+
+     "pulseaudio": {
+       "format": "{icon}",
+       "format-muted": "",
+       "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+       "on-scroll-up": "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+",
+       "on-scroll-down": "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-",
+       "scroll-step": 5,
+       "format-icons": {
+           "headphone": "",
+           "hands-free": "",
+           "headset": "",
+           "phone": "",
+           "portable": "",
+           "car": "",
+           "default": ["", "", ""]
+       },
+       "tooltip": true,
+       "tooltip-format": "{icon} at {volume}%"
+    },
+
+    "battery": {
+        "bat": "BAT0",
+        "interval": 1,
+        "states": {
+            "good": 90,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}%{icon}",
+        "format-charging": "{capacity}%󰂄",
+        "format-icons": ["󰁺", "󰁽", "󰁿", "󰂀"],
+        "max-length": 25
+    }
+}
