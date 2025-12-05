@@ -9,6 +9,8 @@ DOTFILES_MODULES_DIR="$DOTFILES_ROOT_DIR/modules"
 DOTFILES_CONFIG_DIR="$HOME/.config"
 DOTFILES_BIN_DIR="$HOME/.local/bin"
 DOTFILES_OPT_DIR="$HOME/.local/opt"
+DOTFILES_OS="$(uname -s)"
+DOTFILES_OS_DISTRO="$(grep '^ID=' /etc/os-release | cut -d= -f2)"
 
 mkdir -p $DOTFILES_CONFIG_DIR
 mkdir -p $DOTFILES_BIN_DIR
