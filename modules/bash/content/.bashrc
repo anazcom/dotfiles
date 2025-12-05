@@ -21,4 +21,6 @@ if command -v starship > /dev/null ; then
   eval "$(starship init bash)"
 fi
 
-bind -x '"\C-f": tmux-sessionizer'
+if command -v tmux-sessionizer > /dev/null ; then
+  bind -x '"\C-f": tmux-sessionizer'
+fi
