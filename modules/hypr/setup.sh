@@ -1,4 +1,7 @@
 require DOTFILES_ROOT_DIR
+require DOTFILES_CONTAINER_SETUP
+require DOTFILES_OS
+require DOTFILES_OS_DISTRO
 
 CONTENT_DIR="$DOTFILES_ROOT_DIR/modules/hypr/content"
 
@@ -14,4 +17,10 @@ if ! command -v hyprctl >/dev/null 2>&1; then
     return 0
 fi
 
-ln -s "$CONTENT_DIR" "$HOME/.config/hypr"
+if [ -d "$DOTFILES_CONFIG_DIR/hypr" ]; then 
+    rm -rf "$DOTFILES_CONFIG_DIR/hypr"
+fi
+
+mkdir -p "$DOTFILES_CONFIG_DIR/hypr"
+ln -s "$CONTENT_DIR" "$DOTFILES_CONFIG_DIR/hypr"
+success "Hyprland setup completed."

@@ -1,4 +1,6 @@
 require DOTFILES_ROOT_DIR
+require DOTFILES_CONFIG_DIR
+require DOTFILES_CONTAINER_SETUP
 
 CONTENT_DIR="$DOTFILES_ROOT_DIR/modules/ghostty/content"
 
@@ -12,9 +14,9 @@ if ! command -v ghostty >/dev/null 2>&1; then
     return 0
 fi
 
-if [ -d "$HOME/.config/ghostty" ]; then 
-    rm -rf "$HOME/.config/ghostty"
+if [ -d "$DOTFILES_CONFIG_DIR/ghostty" ]; then 
+    rm -rf "$DOTFILES_CONFIG_DIR/ghostty"
 fi
 
-ln -s "$CONTENT_DIR" "$HOME/.config/ghostty"
+ln -s "$CONTENT_DIR" "$DOTFILES_CONFIG_DIR/ghostty"
 success "Ghostty setup completed."
