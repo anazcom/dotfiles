@@ -1,21 +1,20 @@
 #!/bin/bash
 
+DOTFILES_SHELL=${DOTFILES_SHELL:-"/bin/bash"}
+DOTFILES_CONTAINER_SETUP=${DOTFILES_CONTAINER_SETUP:-"false"}
+################################################
 DOTFILES_ROOT_DIR=$(dirname "$(realpath "$0")")
+DOTFILES_ENABLED_DIR="$DOTFILES_ROOT_DIR/enabled.d"
+DOTFILES_MODULES_DIR="$DOTFILES_ROOT_DIR/modules"
 DOTFILES_CONFIG_DIR="$HOME/.config"
 DOTFILES_BIN_DIR="$HOME/.local/bin"
 DOTFILES_OPT_DIR="$HOME/.local/opt"
-DOTFILES_SHELL="/bin/bash"
 
 mkdir -p $DOTFILES_CONFIG_DIR
 mkdir -p $DOTFILES_BIN_DIR
 mkdir -p $DOTFILES_OPT_DIR
 
-
 source "$DOTFILES_ROOT_DIR/lib/common.sh"
-
-# Execute enabled modules in order
-DOTFILES_ENABLED_DIR="$DOTFILES_ROOT_DIR/enabled.d"
-DOTFILES_MODULES_DIR="$DOTFILES_ROOT_DIR/modules"
 
 if [ ! -d "$DOTFILES_MODULES_DIR" ]; then
 	error "Modules directory not found at $DOTFILES_MODULES_DIR"
