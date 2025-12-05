@@ -34,20 +34,3 @@ for enabled_file in $(find "$DOTFILES_ENABLED_DIR" -maxdepth 1 -type f -printf "
 		exit 1
 	fi
 done
-
-
-
-# ln -s "$SCRIPT_ROOT_DIR/.vimrc" "$HOME/.vimrc" 
-
-# ln -s "$SCRIPT_ROOT_DIR/tmux" "$XDG_CONFIG_HOME" 
-
-# ln -s "$SCRIPT_ROOT_DIR/git" "$XDG_CONFIG_HOME" 
-# ln -s "$SCRIPT_ROOT_DIR/ghostty" "$XDG_CONFIG_HOME" 
-
-
-# if ! [[ "$(uname -s)" == "Darwin" ]]; then
-# 		ln -s "$SCRIPT_ROOT_DIR/code/settings.json" "$XDG_CONFIG_HOME/Code/User/settings.json" 
-# 		ln -s "$SCRIPT_ROOT_DIR/code/keybindings.json" "$XDG_CONFIG_HOME/Code/User/keybindings.json" 
-# 		ln -s "$SCRIPT_ROOT_DIR/waybar" "$XDG_CONFIG_HOME" 
-# 		ln -s "$SCRIPT_ROOT_DIR/hypr" "$XDG_CONFIG_HOME" 
-# fi
