@@ -1,7 +1,6 @@
 #!/bin/bash
 
 DOTFILES_SHELL=${DOTFILES_SHELL:-"/bin/bash"}
-DOTFILES_CONTAINER_SETUP=${DOTFILES_CONTAINER_SETUP:-"false"}
 ################################################
 DOTFILES_ROOT_DIR=$(dirname "$(realpath "$0")")
 DOTFILES_ENABLED_DIR="$DOTFILES_ROOT_DIR/enabled.d"

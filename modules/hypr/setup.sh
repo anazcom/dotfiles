@@ -1,13 +1,10 @@
 require DOTFILES_ROOT_DIR
-require DOTFILES_CONTAINER_SETUP
 require DOTFILES_OS
 require DOTFILES_OS_DISTRO
 
 CONTENT_DIR="$DOTFILES_ROOT_DIR/modules/hypr/content"
 
-if  [[ "$DOTFILES_CONTAINER_SETUP" == "true" ]] || \
-    [[ $DOTFILES_OS != "Linux" ]] || \
-    [[ $DOTFILES_OS_DISTRO != "arch" ]]; then
+if [[ $DOTFILES_OS != "Linux" && $DOTFILES_OS_DISTRO != "arch" ]]; then
     warning "Skipping hyprland setup. Not running Linux/Arch."
     return 0
 fi

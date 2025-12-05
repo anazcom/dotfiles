@@ -2,6 +2,11 @@ require DOTFILES_ROOT_DIR
 
 CONTENT_DIR="$DOTFILES_ROOT_DIR/modules/vscode/content"
 
+if uname --kernel-release | grep -iq wsl; then
+    warning "VSCode setup skipped in WSL environment."
+    return 0
+fi
+
 if ! command -v code >/dev/null 2>&1; then
     warning "VSCode is not installed. Skipping setup."
     return 0
