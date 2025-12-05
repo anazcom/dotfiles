@@ -8,7 +8,7 @@ CONTENT_DIR="$DOTFILES_ROOT_DIR/modules/bash/content"
 
 if [ "$DOTFILES_SHELL" != "/bin/bash" ]; then
     warning "Skipping bash setup because DOTFILES_SHELL is not set to /bin/bash"
-    exit 0
+    return 0
 fi
 
 if [ "$SHELL" != "/bin/bash" ]; then

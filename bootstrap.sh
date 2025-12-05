@@ -21,7 +21,7 @@ if [ ! -d "$DOTFILES_MODULES_DIR" ]; then
 	exit 1
 fi
 
-for enabled_file in $(ls "$DOTFILES_ENABLED_DIR" | sort); do
+for enabled_file in $(find "$DOTFILES_ENABLED_DIR" -maxdepth 1 -type f -printf "%f\n" | sort); do
 	# Extract module name after first dash
 	module_name="${enabled_file#*-}"
 	setup_script="$DOTFILES_MODULES_DIR/$module_name/setup.sh"
