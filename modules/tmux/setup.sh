@@ -13,9 +13,7 @@ done
 rm -rf "$DOTFILES_CONFIG_DIR/tmux"
 rm -rf "$DOTFILES_BIN_DIR/tmux-sessionizer"
 
-mkdir -p "$DOTFILES_CONFIG_DIR/tmux"
-
-ln -s "$CONTENT_DIR/.tmux.conf" "$DOTFILES_CONFIG_DIR/tmux/.tmux.conf"
+ln -s "$CONTENT_DIR/.tmux.conf" "$HOME/.tmux.conf"
 ln -s "$CONTENT_DIR/tmux-sessionizer" "$DOTFILES_BIN_DIR/tmux-sessionizer"
 
 success "Tmux setup completed."
