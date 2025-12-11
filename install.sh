@@ -9,7 +9,11 @@ DOTFILES_CONFIG_DIR="$HOME/.config"
 DOTFILES_BIN_DIR="$HOME/.local/bin"
 DOTFILES_OPT_DIR="$HOME/.local/opt"
 DOTFILES_OS="$(uname -s)"
-DOTFILES_OS_DISTRO="$(grep '^ID=' /etc/os-release | cut -d= -f2)"
+if [ "$DOTFILES_OS" = "Darwin" ]; then
+	DOTFILES_OS_DISTRO="macos"
+else
+	DOTFILES_OS_DISTRO="$(grep '^ID=' /etc/os-release | cut -d= -f2)"
+fi
 
 mkdir -p $DOTFILES_CONFIG_DIR
 mkdir -p $DOTFILES_BIN_DIR
@@ -22,7 +26,8 @@ if [ ! -d "$DOTFILES_MODULES_DIR" ]; then
 	exit 1
 fi
 
-for enabled_file in $(find "$DOTFILES_ENABLED_DIR" -maxdepth 1 -type f -printf "%f\n" | sort); do
+for enabled_file in $(ls "$DOTFILES_ENABLED_DIR" | sort); do
+	echo $enabled_file
 	# Extract module name after first dash
 	module_name="${enabled_file#*-}"
 	setup_script="$DOTFILES_MODULES_DIR/$module_name/setup.sh"
