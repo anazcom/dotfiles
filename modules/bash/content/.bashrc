@@ -24,3 +24,18 @@ fi
 if command -v tmux-sessionizer > /dev/null ; then
   bind -x '"\C-f": tmux-sessionizer'
 fi
+
+if uname -r | grep -iq wsl ; then
+    if command -v proxy > /dev/null ; then
+        eval "$(proxy --yes)"
+    fi
+fi
+
+if [[ -f "$HOME/.bash_aliases" ]]; then
+    source "$HOME/.bash_aliases" 
+fi
+
+if [[ -f "$HOME/.bash_containers" ]]; then
+    source "$HOME/.bash_containers" 
+fi
+

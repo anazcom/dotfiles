@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [[ -d $HOME/.local/bin ]] ; then 
+  export PATH=$HOME/.local/bin:$PATH
+fi 
+
+if [[ -d /opt/homebrew/bin ]] ; then
+  export PATH=/opt/homebrew/bin:$PATH
+fi
+
+# CURL
+export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
