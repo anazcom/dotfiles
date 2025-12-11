@@ -8,9 +8,7 @@ if ! command -v git >/dev/null 2>&1; then
     return 0
 fi
 
-if [ -d "$DOTFILES_CONFIG_DIR/git" ]; then
-    rm -rf "$DOTFILES_CONFIG_DIR/git"
-fi
-
+rm -rf "$DOTFILES_CONFIG_DIR/git"
 ln -s "$CONTENT_DIR" "$DOTFILES_CONFIG_DIR/git"
+
 success "Git setup completed."

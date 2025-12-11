@@ -8,9 +8,7 @@ if ! command -v vim >/dev/null 2>&1; then
     return 0
 fi
 
-if [ -d "$HOME/.vimrc" ]; then 
-    rm -rf "$HOME/.vimrc"
-fi
-
+rm -rf "$HOME/.vimrc"
 ln -s "$CONTENT_DIR/.vimrc" "$HOME/.vimrc"
+
 success "Vim setup completed."

@@ -25,14 +25,9 @@ case "$DOTFILES_OS" in
         ;;
 esac
 
-if [ -f "$CODE_SETTINGS_DIR/settings.json" ]; then 
-    rm -rf "$CODE_SETTINGS_DIR/settings.json"
-fi
-
-if [ -f "$CODE_SETTINGS_DIR/keybindings.json" ]; then 
-    rm -rf "$CODE_SETTINGS_DIR/keybindings.json"
-fi
-
+rm -rf "$CODE_SETTINGS_DIR/settings.json"
+rm -rf "$CODE_SETTINGS_DIR/keybindings.json"
 ln -s "$CONTENT_DIR/settings.json" "$CODE_SETTINGS_DIR/settings.json"
 ln -s "$CONTENT_DIR/keybindings.json" "$CODE_SETTINGS_DIR/keybindings.json"
+
 success "VSCode setup completed."

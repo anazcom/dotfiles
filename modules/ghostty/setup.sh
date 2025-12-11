@@ -8,9 +8,7 @@ if ! command -v ghostty >/dev/null 2>&1; then
     return 0
 fi
 
-if [ -d "$DOTFILES_CONFIG_DIR/ghostty" ]; then 
-    rm -rf "$DOTFILES_CONFIG_DIR/ghostty"
-fi
-
+rm -rf "$DOTFILES_CONFIG_DIR/ghostty"
 ln -s "$CONTENT_DIR" "$DOTFILES_CONFIG_DIR/ghostty"
+
 success "Ghostty setup completed."

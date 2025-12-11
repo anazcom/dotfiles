@@ -10,15 +10,12 @@ for pkg in "tmux tmux-sessionizer fzf"; do
     fi
 done
 
-if [ -d "$DOTFILES_CONFIG_DIR/tmux" ]; then 
-    rm -rf "$DOTFILES_CONFIG_DIR/tmux"
-fi
-
-if [ -f "$DOTFILES_BIN_DIR/tmux-sessionizer" ]; then 
-    rm -rf "$DOTFILES_BIN_DIR/tmux-sessionizer"
-fi
+rm -rf "$DOTFILES_CONFIG_DIR/tmux"
+rm -rf "$DOTFILES_BIN_DIR/tmux-sessionizer"
 
 mkdir -p "$DOTFILES_CONFIG_DIR/tmux"
+
 ln -s "$CONTENT_DIR/.tmux.conf" "$DOTFILES_CONFIG_DIR/tmux/.tmux.conf"
 ln -s "$CONTENT_DIR/tmux-sessionizer" "$DOTFILES_BIN_DIR/tmux-sessionizer"
+
 success "Tmux setup completed."

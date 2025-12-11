@@ -353,7 +353,6 @@
         }
     ],
     "chat.commandCenter.enabled": false,
-    "workbench.activityBar.location": "bottom",
     "workbench.secondarySideBar.defaultVisibility": "visible",
     "[javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -381,6 +380,7 @@
     "[github-actions-workflow]": {
         "editor.defaultFormatter": "redhat.vscode-yaml"
     },
-    "editor.wordWrap": "on",
-    "workbench.colorTheme": "Catppuccin Macchiato"
+    "workbench.colorTheme": "Catppuccin Macchiato",
+    "redhat.telemetry.enabled": false,
+    "workbench.activityBar.location": "bottom"
 }

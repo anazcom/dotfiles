@@ -16,15 +16,11 @@ if [ "$SHELL" != "/bin/bash" ]; then
     sudo chsh -s /bin/bash "$USER"
 fi
 
-if [ -f "$HOME/.bash_profile" ]; then 
-    rm -rf "$HOME/.bash_profile"
-fi
-
-if [ -f "$HOME/.bashrc" ]; then 
-    rm -rf "$HOME/.bashrc"
-fi
-
-ln -s "$CONTENT_DIR/.bash_profile" "$HOME/.bash_profile" 
-ln -s "$CONTENT_DIR/.bashrc" "$HOME/.bashrc" 
+bash_files=(".bashrc" ".bash_profile" ".bash_env" ".bash_containers")
+for name in ${bash_files[@]};
+do
+	rm -f "$HOME/$name"
+	ln -s "$CONTENT_DIR/$name" "$HOME/$name"
+done
 
 success "Bash setup completed."
