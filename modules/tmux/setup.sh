@@ -10,7 +10,7 @@ for pkg in "tmux tmux-sessionizer fzf"; do
     fi
 done
 
-rm -rf "$DOTFILES_CONFIG_DIR/tmux"
+rm -rf "$HOME/.tmux.conf"
 rm -rf "$DOTFILES_BIN_DIR/tmux-sessionizer"
 
 ln -s "$CONTENT_DIR/.tmux.conf" "$HOME/.tmux.conf"
