@@ -22,7 +22,8 @@
     "terminal.integrated.fontWeight": "100",
     "terminal.integrated.defaultProfile.windows": "Git Bash",
     "terminal.external.windowsExec": "C:\\Program Files\\Git\\bin\\bash.exe",
-    "terminal.integrated.defaultProfile.linux": "tmux",
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.defaultProfile.osx": "bash",
     "workbench.editor.editorActionsLocation": "hidden",
     "workbench.sideBar.location": "left",
     "workbench.iconTheme": "catppuccin-macchiato",
@@ -382,5 +383,6 @@
     },
     "workbench.colorTheme": "Catppuccin Macchiato",
     "redhat.telemetry.enabled": false,
-    "workbench.activityBar.location": "bottom"
+    "workbench.activityBar.location": "bottom",
+    "terminal.external.osxExec": "Ghostty.app"
 }
