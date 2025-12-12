@@ -1,6 +1,3 @@
-[user]
-    email = tonito.nazco@gmail.com
-    name = anazcom
 [core]
     autocrlf = input
 [init]
@@ -14,7 +11,7 @@
     enabled = true
 [pull]
     rebase = true
-[includeif "~/repos/personal"]
-	path = /Users/tonynazcomenendez/.config/git/config-personal
-[includeif "~/repos/work"]
-	path = /Users/tonynazcomenendez/.config/git/config-work
+[includeif "gitdir:~/repos/personal/"]
+	path = config-personal
+[includeif "gitdir:~/repos/work/"]
+	path = config-work
