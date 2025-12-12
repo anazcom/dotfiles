@@ -1,17 +1,5 @@
-
 alias ls='ls -a --color=auto'
 alias grep='grep --color=auto'
-
-if uname -r | grep -iq wsl; then
-    W_SYSTEM_ROOT="/mnt/c/Windows/"
-    alias whome="cd /mnt/c/Users/mia-antonion"
-    alias wrepo="cd /mnt/c/Users/mia-antonion/repos"
-    alias wnotes="cd /mnt/c/Users/mia-antonion/OneDrive\ -\ Expeditors\ International\ of\ Washington\ Inc/Documents/Obsidian/Personal"
-    alias wwnotes="cd /mnt/c/Users/mia-antonion/Expeditors\ International\ of\ Washington\ Inc/Americas\ IS-Solutions\ Team\ -\ CSP\ Business\ Apps/CSP_Business_Apps_Obsidian_Vault/"
-    alias wcode="/mnt/c/Users/mia-antonion/AppData/Local/Programs/Microsoft\ VS\ Code/Code.exe"
-    alias setnoproxy="$(eval proxy --no)"
-    alias setproxy="$(eval proxy --yes)"
-fi
 
 # =========================================
 # Git Stuff
@@ -67,3 +55,18 @@ type __git_complete >/dev/null 2>&1 && {
     __git_complete   gd       _git_diff
     __git_complete   gdc      _git_diff
 }
+
+if uname -r | grep -iq wsl ; then
+
+  alias whome="cd /mnt/c/Users/mia-antonion"
+  alias wrepo="cd /mnt/c/Users/mia-antonion/repos"
+  alias wnotes="cd /mnt/c/Users/mia-antonion/OneDrive\ -\ Expeditors\ International\ of\ Washington\ Inc/Documents/Obsidian/Personal"
+  alias wwnotes="cd /mnt/c/Users/mia-antonion/Expeditors\ International\ of\ Washington\ Inc/Americas\ IS-Solutions\ Team\ -\ CSP\ Business\ Apps/CSP_Business_Apps_Obsidian_Vault/"
+  alias wcode="/mnt/c/Users/mia-antonion/AppData/Local/Programs/Microsoft\ VS\ Code/Code.exe"
+
+  if command -v proxy > /dev/null ; then
+      alias setnoproxy="$(eval proxy --no)"
+      alias setproxy="$(eval proxy --yes)"
+  fi
+
+fi

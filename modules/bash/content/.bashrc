@@ -5,24 +5,8 @@ export HISTCONTROL=ignoreboth:erasedups
 set -o vi
 set -o history
 
-alias ls='ls -a --color=auto'
-alias grep='grep --color=auto'
-alias dotfiles='cd ~/dotfiles'
-
-if [[ -d $HOME/.local/bin ]] ; then 
-  export PATH=$HOME/.local/bin:$PATH
-fi 
-
-if [[ -d /opt/homebrew/bin ]] ; then
-  export PATH=/opt/homebrew/bin:$PATH
-fi
-
 if command -v starship > /dev/null ; then
   eval "$(starship init bash)"
-fi
-
-if command -v tmux-sessionizer > /dev/null ; then
-  bind -x '"\C-f": tmux-sessionizer'
 fi
 
 if uname -r | grep -iq wsl ; then
@@ -31,11 +15,10 @@ if uname -r | grep -iq wsl ; then
     fi
 fi
 
-if [[ -f "$HOME/.bash_aliases" ]]; then
-    source "$HOME/.bash_aliases" 
-fi
+[[ -f "$HOME/.bash_aliases" ]] && source "$HOME/.bash_aliases"
+[[ -f "$HOME/.bash_containers" ]] && source "$HOME/.bash_containers"
+[[ -f "$HOME/.bash_env" ]] && source "$HOME/.bash_env"
 
-if [[ -f "$HOME/.bash_containers" ]]; then
-    source "$HOME/.bash_containers" 
+if command -v tmux-sessionizer > /dev/null ; then
+  bind -x '"\C-f": tmux-sessionizer'
 fi
-
