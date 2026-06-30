@@ -5,6 +5,18 @@ export HISTCONTROL=ignoreboth:erasedups
 set -o vi
 set -o history
 
+alias ls='ls --color=auto -a'
+alias grep='grep --color=auto'
+alias dotfiles='cd ~/dotfiles'
+
+if [[ -d $HOME/.local/bin ]] ; then 
+  export PATH=$HOME/.local/bin:$PATH
+fi 
+
+if [[ -d /opt/homebrew/bin ]] ; then
+  export PATH=/opt/homebrew/bin:$PATH
+fi
+
 if command -v starship > /dev/null ; then
   eval "$(starship init bash)"
 fi
@@ -22,3 +34,7 @@ fi
 if command -v tmux-sessionizer > /dev/null ; then
   bind -x '"\C-f": tmux-sessionizer'
 fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion

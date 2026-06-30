@@ -15,3 +15,6 @@
 	path = ~/.config/git/config-personal
 [includeif "gitdir:~/repos/work"]
 	path = ~/.config/git/config-work
+[user]
+	email = tonito.nazco@gmail.com
+	name = anazcom
