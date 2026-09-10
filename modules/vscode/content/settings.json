@@ -376,7 +376,7 @@
             "comments": false,
             "strings": true
         },
-        "editor.defaultFormatter": "redhat.vscode-yaml"
+        "editor.defaultFormatter": "ms-azuretools.vscode-containers"
     },
     "[github-actions-workflow]": {
         "editor.defaultFormatter": "redhat.vscode-yaml"

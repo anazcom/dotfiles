@@ -11,7 +11,7 @@
     enabled = true
 [pull]
     rebase = true
-[includeif "gitdir:~/repos/personal/"]
-	path = config-personal
-[includeif "gitdir:~/repos/work/"]
-	path = config-work
+[includeif "gitdir:~/repos/personal"]
+	path = ~/.config/git/config-personal
+[includeif "gitdir:~/repos/work"]
+	path = ~/.config/git/config-work
