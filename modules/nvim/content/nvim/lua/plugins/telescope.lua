@@ -36,7 +36,7 @@ telescope.setup({
 				["<C-p>"] = toggle_preview,
 				["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
 				["<C-l>"] = actions.toggle_selection,
-				["<C-a>"] = actions.select_all,
+				["<C-a>"] = actions.toggle_all,
 			},
 			n = {
 				["<C-j>"] = actions.move_selection_next,
@@ -44,7 +44,7 @@ telescope.setup({
 				["<C-p>"] = toggle_preview,
 				["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
 				["<C-l>"] = actions.toggle_selection,
-				["<C-a>"] = actions.select_all,
+				["<C-a>"] = actions.toggle_all,
 			},
 		},
 	},
