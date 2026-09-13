@@ -9,6 +9,6 @@ if ! command -v nvim >/dev/null 2>&1; then
 fi
 
 rm -rf "$DOTFILES_CONFIG_DIR/nvim"
-ln -s "$CONTENT_DIR/nvim" "$DOTFILES_CONFIG_DIR/nvim"
+ln -s "$CONTENT_DIR" "$DOTFILES_CONFIG_DIR/nvim"
 
 success "Nvim setup completed."

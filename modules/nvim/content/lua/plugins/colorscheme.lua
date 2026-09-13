@@ -5,5 +5,10 @@ require("catppuccin").setup({
 		comments = { "italic" }, -- Change the style of comments
 		conditionals = {},
 	},
+	custom_highlights = function(colors)
+		return {
+			netrwMarkFile = { fg = colors.yellow, bg = colors.surface1, bold = true },
+		}
+	end,
 })
 vim.cmd.colorscheme("catppuccin")
