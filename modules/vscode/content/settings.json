@@ -1,6 +1,9 @@
 {
-    "window.zoomLevel": 1,
+    "breadcrumbs.symbolPath": "off",
+    "breadcrumbs.icons": false,
     //Editor
+    "editor.fontFamily": "Hurmit Nerd Font Mono",
+    // "editor.fontFamily": "JetBrainsMono Nerd Font Mono",
     "editor.cursorStyle": "block",
     "editor.tabSize": 4,
     "editor.lineHeight": 24,
@@ -8,25 +11,24 @@
     "editor.fontLigatures": true,
     "editor.detectIndentation": true,
     "editor.quickSuggestionsDelay": 0,
-    "editor.fontFamily": "Hurmit Nerd Font Mono",
-    "editor.fontWeight": "100",
-    "editor.fontSize": 13,
+    "editor.fontWeight": "400",
+    "editor.fontSize": 12,
     "editor.stickyScroll.enabled": true,
     "editor.minimap.enabled": false,
     "editor.overviewRulerBorder": false,
     "editor.scrollbar.vertical": "hidden",
     "editor.scrollbar.horizontal": "hidden",
+    "editor.wordWrap": "off",
     //Terminal
     "terminal.integrated.fontFamily": "Hurmit Nerd Font Mono",
+    // "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono",
     "terminal.integrated.fontSize": 12,
-    "terminal.integrated.fontWeight": "100",
+    "terminal.integrated.fontWeight": "400",
     "terminal.integrated.defaultProfile.windows": "Git Bash",
     "terminal.external.windowsExec": "C:\\Program Files\\Git\\bin\\bash.exe",
     "terminal.integrated.defaultProfile.linux": "bash",
-    "terminal.integrated.defaultProfile.osx": "bash",
     "workbench.editor.editorActionsLocation": "hidden",
     "workbench.sideBar.location": "left",
-    "workbench.iconTheme": "catppuccin-macchiato",
     "workbench.editor.showTabs": "none",
     "workbench.statusBar.visible": true,
     "workbench.colorCustomizations": {
@@ -36,10 +38,8 @@
     "workbench.settings.applyToAllProfiles": [
         "editor.fontFamily"
     ],
-    //Breadcrumbs
-    "breadcrumbs.filePath": "last",
-    "breadcrumbs.symbolPath": "off",
     //Window
+    "window.zoomLevel": 1,
     "window.openFilesInNewWindow": "off",
     "window.menuBarVisibility": "compact",
     "window.newWindowProfile": null,
@@ -47,7 +47,6 @@
     "explorer.confirmDelete": true,
     "explorer.compactFolders": true,
     "explorer.confirmDragAndDrop": true,
-    //Better Comments
     "better-comments.tags": [
         {
             "tag": "!",
@@ -104,9 +103,8 @@
     "vim.normalModeKeyBindings": [
         {
             "before": [
-                "<leader>",
+                "]",
                 "e",
-                "l"
             ],
             "commands": [
                 "editor.action.marker.next"
@@ -114,9 +112,8 @@
         },
         {
             "before": [
-                "<leader>",
                 "e",
-                "h"
+                "["
             ],
             "commands": [
                 "editor.action.marker.prev"
@@ -317,7 +314,7 @@
             "commands": [
                 "vscode-harpoon.gotoEditor4"
             ]
-        }
+        },
     ],
     "vim.visualModeKeyBindings": [
         {
@@ -353,7 +350,7 @@
             ]
         }
     ],
-    "chat.commandCenter.enabled": false,
+    "workbench.activityBar.location": "bottom",
     "workbench.secondarySideBar.defaultVisibility": "visible",
     "[javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -361,9 +358,6 @@
     "[css]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "security.allowedUNCHosts": [
-        "wsl.localhost"
-    ],
     "[yaml]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
@@ -381,8 +375,60 @@
     "[github-actions-workflow]": {
         "editor.defaultFormatter": "redhat.vscode-yaml"
     },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "workbench.iconTheme": "catppuccin-macchiato",
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[java]": {
+        "editor.defaultFormatter": "redhat.java"
+    },
+    "[shellscript]": {
+        "editor.defaultFormatter": "mads-hartmann.bash-ide-vscode"
+    },
+    "remote.autoForwardPortsSource": "hybrid",
+    "terminal.integrated.initialHint": false,
+    "chat.viewSessions.orientation": "stacked",
+    "files.associations": {
+        "*.eds": "pascal"
+    },
+    "dotfiles.repository": "https://github.com/Antonio-Nazco_expedEMU/dotfiles",
+    "dotfiles.targetPath": "~/.dotfiles",
+    "dotfiles.installCommand": "bash ~/.dotfiles/install.sh",
+    "[scss]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "js/ts.updateImportsOnFileMove.enabled": "always",
+    "git.blame.editorDecoration.enabled": false,
+    "git.blame.statusBarItem.enabled": false,
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "bash",
+            "icon": "terminal-bash"
+        },
+        "zsh": {
+            "path": "/usr/bin/zsh"
+        },
+        "fish": {
+            "path": "fish"
+        },
+        "tmux": {
+            "path": "tmux",
+            "icon": "terminal-tmux"
+        },
+        "pwsh": {
+            "path": "pwsh",
+            "icon": "terminal-powershell"
+        }
+    },
     "workbench.colorTheme": "Catppuccin Macchiato",
-    "redhat.telemetry.enabled": false,
-    "workbench.activityBar.location": "bottom",
-    "terminal.external.osxExec": "Ghostty.app"
+    "git.suggestSmartCommit": false,
 }

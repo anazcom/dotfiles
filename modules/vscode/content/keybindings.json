@@ -3,16 +3,6 @@
 [
     {
         "key": "alt+,",
-        "command": "-gitlens.key.alt+,",
-        "when": "gitlens:key:,"
-    },
-    {
-        "key": "alt+,",
-        "command": "-gitlens.diffWithPrevious",
-        "when": "editorTextFocus && config.gitlens.keymap == 'alternate' && resource in 'gitlens:tabs:tracked'"
-    },
-    {
-        "key": "cmd+,",
         "command": "workbench.action.terminal.toggleTerminal",
         "when": "terminal.active"
     },
@@ -23,18 +13,13 @@
     },
     {
         "key": "alt+.",
-        "command": "-gitlens.key.alt+.",
-        "when": "gitlens:key:."
+        "command": "workbench.view.explorer",
+        "when": "viewContainer.workbench.view.explorer.enabled && !explorerViewletVisible"
     },
     {
         "key": "alt+.",
-        "command": "-gitlens.diffWithNext",
-        "when": "editorTextFocus && gitlens:enabled && config.gitlens.keymap == 'alternate' && resourceScheme =~ /^(gitlens|git|pr)$/"
-    },
-    {
-        "key": "cmd+.",
-        "command": "workbench.view.explorer",
-        "when": "viewContainer.workbench.view.explorer.enabled"
+        "command": "workbench.action.closeSidebar",
+        "when": "explorerViewletVisible"
     },
     {
         "key": "ctrl+shift+e",
@@ -49,15 +34,6 @@
     {
         "key": "ctrl+alt+left",
         "command": "-workbench.action.moveEditorToPreviousGroup"
-    },
-    {
-        "key": "ctrl+e",
-        "command": "workbench.action.quickOpen",
-        "when": "!terminalFocus"
-    },
-    {
-        "key": "ctrl+e",
-        "command": "-workbench.action.quickOpen"
     },
     {
         "key": "ctrl+k",
@@ -105,51 +81,107 @@
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
     },
     {
-        "key": "ctrl+,",
-        "command": "workbench.action.openSettings"
+        "key": "ctrl+b shift+'",
+        "command": "workbench.action.terminal.splitActiveTab",
+        "when": "terminalProcessSupported && terminalTabsFocus"
     },
     {
-        "key": "cmd+,",
-        "command": "-workbench.action.openSettings"
+        "key": "ctrl+shift+5",
+        "command": "-workbench.action.terminal.splitActiveTab",
+        "when": "terminalProcessSupported && terminalTabsFocus"
     },
     {
-        "key": "cmd+.",
-        "command": "-editor.action.quickFix",
-        "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+        "key": "ctrl+b shift+'",
+        "command": "workbench.action.terminal.split",
+        "when": "terminalFocus && terminalProcessSupported || terminalFocus && terminalWebExtensionContributedProfile"
     },
     {
-        "key": "cmd+.",
-        "command": "-notebook.cell.openFailureActions",
-        "when": "notebookCellFocused && notebookCellHasErrorDiagnostics && !notebookCellEditorFocused"
+        "key": "ctrl+shift+5",
+        "command": "-workbench.action.terminal.split",
+        "when": "terminalFocus && terminalProcessSupported || terminalFocus && terminalWebExtensionContributedProfile"
     },
     {
-        "key": "cmd+.",
-        "command": "-workbench.action.terminal.showQuickFixes",
-        "when": "terminalFocus"
+        "key": "alt+left",
+        "command": "-workbench.action.terminal.focusPreviousPane",
+        "when": "terminalFocus && terminalHasBeenCreated && terminalSplitPaneActive || terminalFocus && terminalProcessSupported && terminalSplitPaneActive"
     },
     {
-        "key": "cmd+.",
-        "command": "-acceptSelectedCodeAction",
-        "when": "codeActionMenuVisible"
+        "key": "alt+right",
+        "command": "-workbench.action.terminal.focusNextPane",
+        "when": "terminalFocus && terminalHasBeenCreated && terminalSplitPaneActive || terminalFocus && terminalProcessSupported && terminalSplitPaneActive"
     },
     {
-        "key": "cmd+.",
-        "command": "-editor.changeDropType",
-        "when": "dropWidgetVisible"
+        "key": "ctrl+b p",
+        "command": "workbench.action.terminal.focusPrevious",
+        "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
     },
     {
-        "key": "cmd+.",
-        "command": "-editor.changePasteType",
-        "when": "pasteWidgetVisible"
+        "key": "ctrl+pageup",
+        "command": "-workbench.action.terminal.focusPrevious",
+        "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
     },
     {
-        "key": "cmd+.",
-        "command": "-problems.action.showQuickFixes",
-        "when": "problemFocus"
+        "key": "ctrl+b h",
+        "command": "workbench.action.terminal.focusPreviousPane",
+        "when": "terminalFocus && terminalHasBeenCreated && terminalSplitPaneActive || terminalFocus && terminalProcessSupported && terminalSplitPaneActive"
     },
     {
-        "key": "cmd+.",
-        "command": "-workbench.action.chat.openModePicker",
-        "when": "chatIsEnabled && inChatInput && chatLocation == 'panel'"
+        "key": "alt+up",
+        "command": "-workbench.action.terminal.focusPreviousPane",
+        "when": "terminalFocus && terminalHasBeenCreated && terminalSplitPaneActive || terminalFocus && terminalProcessSupported && terminalSplitPaneActive"
+    },
+    {
+        "key": "ctrl+b n",
+        "command": "workbench.action.terminal.focusNext",
+        "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
+    },
+    {
+        "key": "ctrl+pagedown",
+        "command": "-workbench.action.terminal.focusNext",
+        "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
+    },
+    {
+        "key": "ctrl+b l",
+        "command": "workbench.action.terminal.focusNextPane",
+        "when": "terminalFocus && terminalHasBeenCreated && terminalSplitPaneActive || terminalFocus && terminalProcessSupported && terminalSplitPaneActive"
+    },
+    {
+        "key": "alt+down",
+        "command": "-workbench.action.terminal.focusNextPane",
+        "when": "terminalFocus && terminalHasBeenCreated && terminalSplitPaneActive || terminalFocus && terminalProcessSupported && terminalSplitPaneActive"
+    },
+    {
+        "key": "ctrl+b c",
+        "command": "workbench.action.terminal.new",
+        "when": "terminalProcessSupported || terminalWebExtensionContributedProfile"
+    },
+    {
+        "key": "ctrl+shift+`",
+        "command": "-workbench.action.terminal.new",
+        "when": "terminalProcessSupported || terminalWebExtensionContributedProfile"
+    },
+    {
+        "key": "shift+alt+k",
+        "command": "workbench.action.terminal.resizePaneUp"
+    },
+    {
+        "key": "shift+alt+j",
+        "command": "workbench.action.terminal.resizePaneDown"
+    },
+    {
+        "key": "ctrl+alt+h",
+        "command": "workbench.action.terminal.resizePaneLeft"
+    },
+    {
+        "key": "ctrl+alt+l",
+        "command": "workbench.action.terminal.resizePaneRight"
+    },
+    {
+        "key": "shift+alt+.",
+        "command": "workbench.action.toggleAuxiliaryBar"
+    },
+    {
+        "key": "ctrl+alt+b",
+        "command": "-workbench.action.toggleAuxiliaryBar"
     },
 ]
