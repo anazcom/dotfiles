@@ -8,7 +8,7 @@ if ! command -v zsh >/dev/null 2>&1; then
     return 0
 fi
 
-default_shell="$(getent passwd "$USER" | cut -d: -f7)"
+default_shell="$(echo $SHELL)"
 
 if ! [[ "$default_shell" == */zsh ]]; then
     warning "zsh is not the default shell in the system, skipping"

@@ -6,7 +6,7 @@ require HOME
 
 CONTENT_DIR="$DOTFILES_ROOT_DIR/modules/bash/content"
 
-default_shell="$(getent passwd "$USER" | cut -d: -f7)"
+default_shell="$(echo $SHELL)"
 
 if ! [[ "$default_shell" == */bash ]]; then
     warning "bash is not the default shell in the system, skipping"
