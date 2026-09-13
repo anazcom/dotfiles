@@ -21,9 +21,9 @@
 # reloaded while running; some only apply to new windows and others may require
 
 font-family = "Hurmit Nerd Font Mono"
-font-size = 15
-# adjust-cell-width = -10%
-theme = Catppuccin Mocha
+font-size = 14
+adjust-cell-height=8
+theme = Catppuccin Macchiato
 cursor-color = #EB9234
 cursor-style = block
 cursor-text = #000000
