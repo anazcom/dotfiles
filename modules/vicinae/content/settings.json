@@ -1,0 +1,11 @@
+{
+   "$schema": "https://vicinae.com/schemas/config.json",
+   "global_shortcuts": {
+      "toggle": "control+SPACE"
+   },
+   "theme": {
+      "dark": {
+         "name": "catppuccin-macchiato"
+      }
+   }
+}
