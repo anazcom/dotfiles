@@ -6,14 +6,11 @@ require HOME
 
 CONTENT_DIR="$DOTFILES_ROOT_DIR/modules/bash/content"
 
-if [ "$DOTFILES_SHELL" != "/bin/bash" ]; then
-    warning "Skipping bash setup because DOTFILES_SHELL is not set to /bin/bash"
-    return 0
-fi
+default_shell="$(getent passwd "$USER" | cut -d: -f7)"
 
-if [ "$SHELL" != "/bin/bash" ]; then
-    info "Changing default shell to /bin/bash"
-    sudo chsh -s /bin/bash "$USER"
+if ! [[ "$default_shell" == */bash ]]; then
+    warning "bash is not the default shell in the system, skipping"
+    return 0
 fi
 
 bash_files=(".bashrc" ".bash_profile" ".bash_env" ".bash_containers")

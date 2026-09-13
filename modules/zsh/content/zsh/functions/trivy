@@ -1,0 +1,7 @@
+trivy() {
+    docker run \
+        --rm -it \
+        -v "$PWD":"$PWD" \
+        -v "$HOME/.cache/trivy:/root/.cache/trivy" \
+        -w "$PWD" aquasec/trivy:latest "$@"
+}

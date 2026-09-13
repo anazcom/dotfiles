@@ -1,0 +1,6 @@
+finder() {
+   local -a locations=("$HOME/repos" "$HOME/repos/work" "$HOME/repos/work/lab" "$HOME/.config")
+   local dir
+   dir=$(find "${locations[@]}" -maxdepth 1 -mindepth 1 -type d | fzf) || return
+   [[ -n "$dir" ]] && cd -- "$dir"
+}

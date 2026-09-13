@@ -1,0 +1,8 @@
+ksm() {
+    docker run \
+        --rm \
+        -it \
+        -e KSM_CONFIG=${KSM_CONFIG} -e KSM_INI_DIR=/etc/keeper \
+        keeper/keeper-secrets-manager-cli:latest
+}
+
