@@ -19,7 +19,10 @@ vim.pack.add({
 	"https://github.com/mfussenegger/nvim-jdtls",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/Saghen/blink.cmp",
+    'https://github.com/saghen/blink.lib',
 	"https://github.com/rachartier/tiny-code-action.nvim",
+
+
 
 	-- Git
 	"https://github.com/tpope/vim-fugitive",
