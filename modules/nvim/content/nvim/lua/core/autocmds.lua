@@ -1,3 +1,30 @@
+-- Force checking for external file changes so autoread actually triggers
+-- (requires tmux's `focus-events on` so FocusGained reaches nvim)
+vim.api.nvim_create_autocmd("FocusGained", {
+	group = vim.api.nvim_create_augroup("checktime_reload", { clear = true }),
+	callback = function()
+		if vim.fn.mode() ~= "c" then
+			vim.cmd("checktime")
+		end
+	end,
+})
+
+-- Notify when a buffer is auto-reloaded due to external changes
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+	group = vim.api.nvim_create_augroup("checktime_notify", { clear = true }),
+	callback = function()
+		vim.notify("File changed on disk, buffer reloaded", vim.log.levels.INFO)
+	end,
+})
+
+vim.api.nvim_create_autocmd("BufRead", {
+	group = vim.api.nvim_create_augroup("pascal_ft", { clear = true }),
+	pattern = { "*.eds" },
+	callback = function()
+		vim.bo.filetype = "pascal"
+	end,
+})
+
 -- syntax highlighting for dotenv files
 vim.api.nvim_create_autocmd("BufRead", {
 	group = vim.api.nvim_create_augroup("dotenv_ft", { clear = true }),

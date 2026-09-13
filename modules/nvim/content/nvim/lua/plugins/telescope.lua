@@ -1,17 +1,50 @@
 local telescope = require("telescope")
 local builtin = require("telescope.builtin")
 local actions = require("telescope.actions")
+local action_layout = require("telescope.actions.layout")
+local action_state = require("telescope.actions.state")
 local code_action = require("tiny-code-action")
+
+-- Toggling preview normally just splits the window in half, which is too
+-- cramped to actually read anything. Instead, make the preview take over
+-- almost the whole picker (squeezing results down to a thin strip) when
+-- shown, and restore the normal split when hidden again.
+local function toggle_preview(prompt_bufnr)
+	local picker = action_state.get_current_picker(prompt_bufnr)
+	local showing_preview = picker.previewer ~= nil
+	picker.layout_config = picker.layout_config or {}
+	picker.layout_config.preview_width = showing_preview and 0.5 or 0.95
+	action_layout.toggle_preview(prompt_bufnr)
+end
 
 telescope.setup({
 	defaults = {
 		path_display = { "truncate", "filename_first" },
+		preview = {
+			hide_on_startup = true,
+		},
+		layout_config = {
+			-- Default preview_cutoff (120 cols) silently disables the preview
+			-- pane on narrower windows, making the <C-p> toggle appear to do
+			-- nothing. Lower it so preview always has room when toggled on.
+			preview_cutoff = 1,
+		},
 		mappings = {
 			i = {
+				["<C-j>"] = actions.move_selection_next,
+				["<C-k>"] = actions.move_selection_previous,
+				["<C-p>"] = toggle_preview,
 				["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+				["<C-l>"] = actions.toggle_selection,
+				["<C-a>"] = actions.select_all,
 			},
 			n = {
+				["<C-j>"] = actions.move_selection_next,
+				["<C-k>"] = actions.move_selection_previous,
+				["<C-p>"] = toggle_preview,
 				["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+				["<C-l>"] = actions.toggle_selection,
+				["<C-a>"] = actions.select_all,
 			},
 		},
 	},
@@ -25,7 +58,6 @@ telescope.setup({
 	},
 })
 
--- telescope.load_extension("ui-select")
 telescope.load_extension("frecency")
 
 code_action.setup({

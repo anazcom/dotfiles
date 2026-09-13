@@ -1,6 +1,8 @@
 -- Highlight on Yank
 vim.cmd([[au TextYankPost * silent! lua vim.highlight.on_yank()]])
 
+vim.g.netrw_banner = 0
+
 -- For any questions regarding options
 -- You can use command: :opt
 vim.g.mapleader = " " -- space leader key
@@ -30,13 +32,13 @@ vim.o.laststatus = 3 -- global statusline
 --
 -- It's a comma-separated list of item:char pairs.
 -- Common items include:
--- (eob) — character for lines past the end of buffer (default ~)
--- (vert) — vertical split separator
--- (fold) — filler for fold lines
--- (foldopen) / foldclose / foldsep — fold column indicators
--- (diff) — filler lines in diff mode
--- (msgsep) — message separator line
--- (stl / stlnc) — statusline fill (active/inactive)
+-- (eob) - character for lines past the end of buffer (default ~)
+-- (vert) - vertical split separator
+-- (fold) - filler for fold lines
+-- (foldopen) / foldclose / foldsep - fold column indicators
+-- (diff) - filler lines in diff mode
+-- (msgsep) - message separator line
+-- (stl / stlnc) - statusline fill (active/inactive)
 vim.opt.fillchars = { eob = " " } -- Hides ~ on empty files
 
 -- Search
@@ -61,7 +63,3 @@ vim.o.breakindent = true -- prevent line wrapping
 vim.o.completeopt = "menu,menuone,noselect,preview" -- omnicomplete options for popup menu
 vim.o.pumheight = 10 -- max height of completion menu
 vim.o.winborder = "rounded" -- rounded border
-
--- netrw
-vim.g.netrw_banner = 0
-vim.g.netrw_keepdir = 0
