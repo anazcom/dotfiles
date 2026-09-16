@@ -2,6 +2,7 @@
 vim.cmd([[au TextYankPost * silent! lua vim.highlight.on_yank()]])
 
 vim.g.netrw_banner = 0
+vim.g.netrw_localrmdir='rm -r' -- Allow deletion of non-empty folders
 
 -- For any questions regarding options
 -- You can use command: :opt
