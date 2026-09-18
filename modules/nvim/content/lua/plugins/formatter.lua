@@ -5,6 +5,8 @@ require("conform").setup({
 		json = { "prettier" },
 		html = { "prettier" },
 		angular = { "prettier" },
+		typescript = { "prettier" },
+		javascript = { "prettier" },
 		java = { "google-java-format" },
 	},
 })
