@@ -1,4 +1,6 @@
-vim.o.cmdheight = 0
+-- cmdheight = 0 causes floating-window/cursor redraw corruption over
+-- higher-latency connections (e.g. SSH into a devcontainer), so keep the
+-- default single-line cmdline instead.
 vim.diagnostic.config({
 	underline = true,
 	virtual_text = false,
