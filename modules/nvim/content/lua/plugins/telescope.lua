@@ -23,6 +23,20 @@ telescope.setup({
 		preview = {
 			hide_on_startup = true,
 		},
+		-- Applied by Telescope itself, so it works across every picker
+		-- (find_files, frecency, live_grep) regardless of the underlying
+		-- search tool. rg already skips .gitignore'd dirs, but this covers
+		-- ignored-but-untracked dirs too (e.g. node_modules without a
+		-- root .gitignore entry).
+		file_ignore_patterns = {
+			"%.git/",
+			"node_modules/",
+			"%.venv/",
+			"venv/",
+			"dist/",
+			"build/",
+			"target/",
+		},
 		layout_config = {
 			-- Default preview_cutoff (120 cols) silently disables the preview
 			-- pane on narrower windows, making the <C-p> toggle appear to do
@@ -74,13 +88,13 @@ local function project_root()
 end
 
 vim.keymap.set("n", "<leader>ff", function()
-    telescope.extensions.frecency.frecency({ cwd = project_root(), workspace = "CWD", hidden = true })
+	telescope.extensions.frecency.frecency({ cwd = project_root(), workspace = "CWD", hidden = true })
 end, { desc = "Find files" })
 vim.keymap.set("n", "<leader>fc", function()
-    builtin.find_files({ cwd = vim.fn.stdpath("config") })
+	builtin.find_files({ cwd = vim.fn.stdpath("config") })
 end, { desc = "Find all config" })
 vim.keymap.set("n", "<leader>fg", function()
-    builtin.live_grep({ cwd = project_root() })
+	builtin.live_grep({ cwd = project_root() })
 end, { desc = "Live grep" })
 vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Search diagnostics" })
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Search Help" })

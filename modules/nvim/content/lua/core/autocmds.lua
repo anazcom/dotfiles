@@ -34,6 +34,16 @@ vim.api.nvim_create_autocmd("BufRead", {
 	end,
 })
 
+-- ripgrep is required by Telescope (live_grep, find_files, etc.) but devcontainers
+-- often don't have root to apt-install it; fall back to a Mason-managed copy.
+vim.api.nvim_create_autocmd("VimEnter", {
+	group = vim.api.nvim_create_augroup("ensure_ripgrep", { clear = true }),
+	once = true,
+	callback = function()
+		require("util").ensure_ripgrep()
+	end,
+})
+
 -- remove plugins from disk that are no longer in vim.pack.add() specs
 vim.api.nvim_create_user_command("PackClean", function()
 	local inactive = vim.iter(vim.pack.get())
