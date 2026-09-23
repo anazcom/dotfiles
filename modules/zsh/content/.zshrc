@@ -2,6 +2,7 @@ LANG="en_US.UTF-8" # Language locale setup
 HISTSIZE=1000 # Number of commands kept in memory for the current shell session.
 HISTFILE=~/.zhistfile # History file location.
 SAVEHIST=1000 # Maximum commands written to disk.
+DOTFILES_URL="https://github.com/anazcom/dotfiles"
 
 setopt SHARE_HISTORY # Share history between all open terminals
 setopt HIST_IGNORE_DUPS # Ignore duplicate entries
@@ -75,6 +76,7 @@ if uname -r | grep -iq wsl ; then
 fi
 
 if command -v fzf > /dev/null ; then
+    echo "setting autocompletion for fzf"
     source <(fzf --zsh)
 fi
 
