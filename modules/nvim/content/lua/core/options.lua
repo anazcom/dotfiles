@@ -2,7 +2,7 @@
 vim.cmd([[au TextYankPost * silent! lua vim.highlight.on_yank()]])
 
 vim.g.netrw_banner = 0
-vim.g.netrw_localrmdir='rm -r' -- Allow deletion of non-empty folders
+vim.g.netrw_localrmdir = "rm -r" -- Allow deletion of non-empty folders
 
 -- For any questions regarding options
 -- You can use command: :opt
@@ -64,3 +64,38 @@ vim.o.breakindent = true -- prevent line wrapping
 vim.o.completeopt = "menu,menuone,noselect,preview" -- omnicomplete options for popup menu
 vim.o.pumheight = 10 -- max height of completion menu
 vim.o.winborder = "rounded" -- rounded border
+
+-- Clipboard
+--
+local ocs52 = require("vim.ui.clipboard.osc52")
+local lastCopied = {
+	["+"] = { {}, "v" },
+	["*"] = { {}, "v" },
+}
+---@param register string Clipboard Register being used + or *
+local function copy(register)
+	local send = ocs52.copy(register)
+	return function(lines)
+		lastCopied[register] = { lines, regtype }
+		send(lines)
+	end
+end
+
+---@param register string Clipboard Register being used + or *
+local function paste(register)
+	return function()
+		return lastCopied[register]
+	end
+end
+
+vim.g.clipboard = {
+	name = "OSC 52",
+	copy = {
+		["+"] = copy("+"),
+		["*"] = copy("*"),
+	},
+	paste = {
+		["+"] = paste("+"),
+		["*"] = paste("*"),
+	},
+}
