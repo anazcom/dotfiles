@@ -3,7 +3,7 @@ require DOTFILES_CONFIG_DIR
 
 CONTENT_DIR="$DOTFILES_ROOT_DIR/modules/tmux/content"
 
-for pkg in "tmux tmux-sessionizer fzf"; do
+for pkg in "tmux fzf"; do
     if ! command -v "${pkg%% *}" >/dev/null 2>&1; then
         warning "$pkg is not installed. Skipping tmux setup."
         return 0
@@ -11,9 +11,9 @@ for pkg in "tmux tmux-sessionizer fzf"; do
 done
 
 rm -rf "$HOME/.tmux.conf"
-rm -rf "$DOTFILES_BIN_DIR/tmux-sessionizer"
+rm -rf "$DOTFILES_BIN_DIR/tms"
 
 ln -s "$CONTENT_DIR/.tmux.conf" "$HOME/.tmux.conf"
-ln -s "$CONTENT_DIR/tmux-sessionizer" "$DOTFILES_BIN_DIR/tmux-sessionizer"
+ln -s "$CONTENT_DIR/tms" "$DOTFILES_BIN_DIR/tms"
 
 success "Tmux setup completed."

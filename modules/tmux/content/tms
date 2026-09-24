@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# tms — tmux sessionizer with three modes
+#   tms [dir]        folder session (classic sessionizer)
+#   tms ssh [host]   every pane/window in the session ssh's into host
+#   tms dc [dir]     bring up the devcontainer, every pane/window lands inside it
+#   tms dc-reap      stop containers whose tms dc session no longer exists
+#   tms dc-stop dir  stop the devcontainer (and its compose siblings) for dir
+set -euo pipefail
+
+: "${TMS_SEARCH_PATHS:=$HOME/repos $HOME/repos/work $HOME/repos/personal $HOME/repos/personal/lab $HOME/.config}"
+: "${TMS_DEPTH:=1}"
+: "${TMS_STATE:=${XDG_STATE_HOME:-$HOME/.local/state}/tms}"
+
+die() { echo "tms: $*" >&2; exit 1; }
+sanitize() { basename -- "$1" | tr '.: ' '___'; }
+
+pick_dir() {
+    find $TMS_SEARCH_PATHS -mindepth 1 -maxdepth "$TMS_DEPTH" -type d 2>/dev/null \
+        | fzf --prompt='dir> '
+}
+
+pick_host() {
+    local files=("$HOME/.ssh/config")
+    # Include all files from config.d if found
+    [[ -d $HOME/.ssh/config.d ]] && files+=("$HOME/.ssh/config.d/*")
+    # Get all values from each line that start with HOST wihout including
+    # special characters !wep-app *.github.com
+    awk 'tolower($1)=="host" { for (i=2;i<=NF;i++) if ($i !~ /[*?!]/) print $i }' \
+        "${files[@]}" 2>/dev/null | sort -u | fzf --prompt='ssh> '
+}
+
+open_session() {
+    local name=$1 dir=$2 cmd=${3:-}
+    if ! tmux has-session -t "=$name" 2>/dev/null; then
+        tmux new-session -ds "$name" -c "$dir"
+        if [[ -n $cmd ]]; then
+            tmux set-option -t "$name" default-command "$cmd"
+            tmux respawn-pane -k -t "$name" "$cmd"
+        fi
+    fi
+    if [[ -n ${TMUX:-} ]]; then 
+        tmux switch-client -t "=$name"
+    else
+        tmux attach-session -t "=$name"
+    fi
+}
+
+cmd_dir(){
+    local dir=${1:-$(pick_dir)}
+    [[ -n $dir ]] || exit 0
+    dir=$(cd "$dir" && pwd)
+    open_session "$(sanitize "$dir")" "$dir"
+}
+
+cmd_ssh(){
+    local host=${1:-$(pick_host)}
+    [[ -n $host ]] || exit 0
+    open_session "ssh_$(sanitize "$host")" "$HOME" "ssh $host"
+}
+
+
+case ${1:-} in
+    ssh) shift; cmd_ssh "$@" ;;
+    dir) shift; cmd_dir "$@" ;;
+    -h|--help) sed -n '2,7p' "$0" ;;
+    *) exit 0 ;;
+esac

@@ -45,21 +45,17 @@ if [[ -d $HOME/.local/bin ]] ; then
 fi 
 
 bindkey -v # Use vim keymaps
-# bindkey -s '^f' '^ufinder\r'
 bindkey -M vicmd '/' history-incremental-search-backward
 
-if command -v tmux-sessionizer >/dev/null 2>&1; then
-    bindkey -s '^f' '^utmux-sessionizer\r'
-fi
-
-if command -v servers >/dev/null 2>&1; then
-    bindkey -s '^j' '^uservers\r'
+# Tmux Sessionizer Commands
+if command -v tms >/dev/null 2>&1; then
+    bindkey -s '^f' '^utms dir\r'
+    bindkey -s '^j' '^utms ssh\r'
 fi
 
 if command -v curl >/dev/null 2>&1; then
     export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 fi
-
 
 if [[ -d "/mnt/c/Users/mia-antonion/AppData/Local/Programs/Microsoft VS Code/bin" ]] ; then
     export PATH="$PATH:/mnt/c/Users/mia-antonion/AppData/Local/Programs/Microsoft VS Code/bin"
@@ -76,7 +72,6 @@ if uname -r | grep -iq wsl ; then
 fi
 
 if command -v fzf > /dev/null ; then
-    echo "setting autocompletion for fzf"
     source <(fzf --zsh)
 fi
 
@@ -94,7 +89,9 @@ if uname -r | grep -iq wsl; then
     alias wnotes="cd /mnt/c/Users/mia-antonion/OneDrive\ -\ Expeditors\ International\ of\ Washington\ Inc/Documents/Obsidian/Personal"
     alias wwnotes="cd /mnt/c/Users/mia-antonion/Expeditors\ International\ of\ Washington\ Inc/Americas\ IS-Solutions\ Team\ -\ CSP\ Business\ Apps/CSP_Business_Apps_Obsidian_Vault/"
     alias wcode="/mnt/c/Users/mia-antonion/AppData/Local/Programs/Microsoft\ VS\ Code/Code.exe"
-    alias setnoproxy="$(eval proxy --no)"
-    alias setproxy="$(eval proxy --yes)"
+    if command -v proxy > /dev/null ; then
+        alias setnoproxy="$(eval proxy --no)"
+        alias setproxy="$(eval proxy --yes)"
+    fi
     alias wexplorer="/mnt/c/Windows/explorer.exe"
 fi

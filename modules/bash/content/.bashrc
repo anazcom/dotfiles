@@ -31,8 +31,9 @@ fi
 [[ -f "$HOME/.bash_containers" ]] && source "$HOME/.bash_containers"
 [[ -f "$HOME/.bash_env" ]] && source "$HOME/.bash_env"
 
-if command -v tmux-sessionizer > /dev/null ; then
-  bind -x '"\C-f": tmux-sessionizer'
+if command -v tms > /dev/null ; then
+  bind -x '"\C-f": tms dir'
+  bind -x '"\C-j": tms ssh'
 fi
 
 export NVM_DIR="$HOME/.nvm"
