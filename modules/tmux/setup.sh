@@ -1,5 +1,6 @@
 require DOTFILES_ROOT_DIR
 require DOTFILES_CONFIG_DIR
+require DOTFILES_BIN_DIR
 
 CONTENT_DIR="$DOTFILES_ROOT_DIR/modules/tmux/content"
 

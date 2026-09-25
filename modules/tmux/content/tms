@@ -7,7 +7,7 @@
 #   tms dc-stop dir  stop the devcontainer (and its compose siblings) for dir
 set -euo pipefail
 
-: "${TMS_SEARCH_PATHS:=$HOME/repos $HOME/repos/work $HOME/repos/personal $HOME/repos/personal/lab $HOME/.config}"
+: "${TMS_SEARCH_PATHS:=$HOME/repos $HOME/repos/work $HOME/repos/work/lab $HOME/repos/personal $HOME/repos/personal/lab $HOME/.config}"
 : "${TMS_DEPTH:=1}"
 : "${TMS_STATE:=${XDG_STATE_HOME:-$HOME/.local/state}/tms}"
 
