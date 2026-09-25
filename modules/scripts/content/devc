@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# DEVC_SSH_AUTH_SOCK: SSH Auth Socket to be used
+
+: "${DEVC_DOTFILES:=https://github.com/anazcom/dotfiles}"
+: "${DEVC_SHELL:=}"
+: "${DEVC_SSH_AGENT:=1}"
+
+AGENT_TARGET=/ssh-agent
+
+log() { printf 'devc: %s\n' "$*" >&2; }
+die() { log "$*"; exit 1; }
+needs() { command -v "$1" >/dev/null || die "$1 not found${2:+ ($2)}"; }
+
+main() {
+    local cmd=${1:-}
+    if (($#)); then shift; fi
+    case $cmd in
+        -h|--help) usage; exit 0 ;;
+        up) ;;
+        *) die "Unknown command: $cmd." "Please check help [devc --help]" ;;
+    esac
+
+    needs docker
+    needs devcontainer "npm i -g @devcontainers/cli"
+    "cmd_$cmd" "$@"
+}
+
+usage() {
+    cat << EOF
+devc up [options] -- [extra-options]
+devc down [options] -- [extra-options] 
+devc exec
+devc -h|--help
+EOF
+}
+
+resolve_agent(){
+    if [[ -n ${DEVC_SSH_AUTH_SOCK:-} ]]; then
+        printf '%s\n' "$DEVC_SSH_AUTH_SOCK"
+    elif [[ $(uname -s) == Darwin ]]; then 
+        echo "/run/host-services/ssh-auth.sock"
+    elif [[ -S ${SSH_AUTH_SOCK:-} ]]; then
+        printf '%s\n' "$SSH_AUTH_SOCK"
+    fi
+}
+
+cmd_up(){
+    DIR=""; ID=""; CLI=();
+    while (($#)); do
+        case $1 in 
+            # --) shift; CLI=("$@"); break ;; Not needed for now
+            -i|--id)
+                (($# >= 2)) || die "Missing value for $1"
+                ID=$2
+                shift
+                ;;
+            -d|--dotfiles)
+                (($# >= 2)) || die "Missing value for $1"
+                DEVC_DOTFILES=$2
+                shift
+                ;;
+            -*) die "Unknown option: $1" ;;
+            *) DIR=$1;;
+        esac
+        shift
+    done
+
+    DIR=$(cd "$DIR" && pwd)
+    [[ -n $DEVC_DOTFILES ]] && CLI+=(--dotfiles-repository "$DEVC_DOTFILES")
+    [[ -n $DIR ]] && CLI+=(--workspace-folder "$DIR")
+    [[ -n $ID ]] && CLI+=(--id-label "id=$ID")
+
+    if [[ -n $DEVC_SSH_AGENT ]]; then
+        AGENT_SRC=$(resolve_agent)
+        if [[ -n $AGENT_SRC ]]; then
+            CLI+=(--mount "type=bind,source=$AGENT_SRC,target=$AGENT_TARGET")
+            CLI+=(--remote-env "SSH_AUTH_SOCK=$AGENT_TARGET")
+        else
+            log "No ssh-agent found on the host; add to your shell 'eval \$\"(ssh-agent -s)\"'"
+        fi
+    fi
+
+    local out
+    # echo "devcontainer up "${CLI[@]}""
+    if ! out=$(devcontainer up --log-level debug "${CLI[@]}"); then
+        printf '%s\n' "$out" >&2
+        return 1
+    fi
+}
+
+
+main "$@"

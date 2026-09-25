@@ -47,6 +47,8 @@ fi
 bindkey -v # Use vim keymaps
 bindkey -M vicmd '/' history-incremental-search-backward
 
+eval "$(ssh-agent -s)" # Enable ssh-agent to forward on container
+
 # Tmux Sessionizer Commands
 if command -v tms >/dev/null 2>&1; then
     bindkey -s '^f' '^utms dir\r'
