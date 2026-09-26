@@ -4,10 +4,8 @@ set -euo pipefail
 # DEVC_SSH_AUTH_SOCK: SSH Auth Socket to be used
 
 : "${DEVC_DOTFILES:=https://github.com/anazcom/dotfiles}"
-: "${DEVC_SHELL:=}"
 : "${DEVC_SSH_AGENT:=1}"
-
-AGENT_TARGET=/ssh-agent
+: "${AGENT_TARGET:=/ssh-agent}"
 
 log() { printf 'devc: %s\n' "$*" >&2; }
 die() {
@@ -35,10 +33,37 @@ main() {
 
 usage() {
     cat <<EOF
-devc up [options] -- [extra-options]
-devc down [options] -- [extra-options] 
-devc exec
-devc -h|--help
+devc — thin wrapper around the devcontainer CLI
+
+Usage: devc <command> [dir] [options]
+
+Commands:
+  up      [dir] [options]  Create/start the dev container for dir (default: \$PWD)
+  enter   [dir] [options]  Exec an interactive shell inside the dev container
+  down    [dir]            Stop the dev container (or its compose project)
+  delete  [dir]            Remove the dev container (or its compose project)
+
+Run 'devc <command> -h' for command-specific options.
+devc -h | --help            Show this help
+EOF
+}
+
+usage_up() {
+    cat <<EOF
+devc up [dir] [options]
+
+Create (or resume) the dev container for the workspace at dir (default: \$PWD).
+
+Options:
+  -i, --id <id>          Extra id-label passed to devcontainer (--id-label id=<id>)
+  -d, --dotfiles <repo>  Dotfiles repository to install into the container
+                         (default: \$DEVC_DOTFILES)
+  -r, --recreate         Remove the existing container first, then create a fresh one
+  -h, --help             Show this help
+
+Env:
+  DEVC_SSH_AGENT   Forward the host ssh-agent into the container (default: 1)
+  DEVC_DOTFILES    Default dotfiles repository
 EOF
 }
 
@@ -50,6 +75,10 @@ cmd_up() {
 
     while (($#)); do
         case $1 in
+        -h | --help)
+            usage_up
+            exit 0
+            ;;
         -i | --id)
             (($# >= 2)) || die "Missing value for $1"
             ID=$2
@@ -73,7 +102,7 @@ cmd_up() {
     [[ -n $DEVC_DOTFILES ]] && CLI+=(--dotfiles-repository "$DEVC_DOTFILES")
     [[ -n $DIR ]] && CLI+=(--workspace-folder "$DIR")
     [[ -n $ID ]] && CLI+=(--id-label "id=$ID")
-    [[ -n $RECREATE ]] && CLI+=(--remove-existing-container)
+    ((RECREATE)) && CLI+=(--remove-existing-container)
     if [[ -n $DEVC_SSH_AGENT ]]; then
         AGENT_SRC=$(resolve_agent)
         if [[ -n $AGENT_SRC ]]; then
@@ -96,9 +125,25 @@ cmd_up() {
     fi
 }
 
+usage_enter() {
+    cat <<EOF
+devc enter [dir] [options]
+
+Exec an interactive shell inside the running dev container for dir (default: \$PWD).
+
+Options:
+  -s, --shell <shell>   Shell to launch inside the container (default: \$SHELL)
+  -h, --help            Show this help
+EOF
+}
+
 cmd_enter() {
     while (($#)); do
         case $1 in
+        -h | --help)
+            usage_enter
+            exit 0
+            ;;
         -s | --shell)
             (($# >= 2)) || die "Missing value for $1"
             SHELL=$2
@@ -122,7 +167,27 @@ compose_project() {
     docker inspect -f '{{with index .Config.Labels "com.docker.compose.project"}}{{.}}{{end}}' "$1"
 }
 
+usage_down() {
+    cat <<EOF
+devc down [dir]
+
+Stop the dev container for dir (default: \$PWD).
+Uses 'docker compose stop' if the container belongs to a compose project,
+otherwise 'docker stop'.
+EOF
+}
+
 cmd_down() {
+    while (($#)); do
+        case ${1:-} in
+        -h | --help)
+            usage_down
+            exit 0
+            ;;
+        *) DIR=$1 ;;
+        esac
+        shift
+    done
     DIR=$(cd "${1:-$PWD}" && pwd)
     CLI=()
     ID=$(main_container "$DIR") || return 0
@@ -135,7 +200,27 @@ cmd_down() {
     fi
 }
 
+usage_delete() {
+    cat <<EOF
+devc delete [dir]
+
+Remove the dev container for dir (default: \$PWD).
+Uses 'docker compose down' if the container belongs to a compose project,
+otherwise 'docker rm -f'.
+EOF
+}
+
 cmd_delete() {
+    while (($#)); do
+        case ${1:-} in
+        -h | --help)
+            usage_delete
+            exit 0
+            ;;
+        *) DIR=$1 ;;
+        esac
+        shift
+    done
     DIR=$(cd "${1:-$PWD}" && pwd)
     CLI=()
     ID=$(main_container "$DIR") || return 0
