@@ -10,16 +10,22 @@ set -euo pipefail
 AGENT_TARGET=/ssh-agent
 
 log() { printf 'devc: %s\n' "$*" >&2; }
-die() { log "$*"; exit 1; }
+die() {
+    log "$*"
+    exit 1
+}
 needs() { command -v "$1" >/dev/null || die "$1 not found${2:+ ($2)}"; }
 
 main() {
     local cmd=${1:-}
     if (($#)); then shift; fi
     case $cmd in
-        -h|--help) usage; exit 0 ;;
-        up) ;;
-        *) die "Unknown command: $cmd." "Please check help [devc --help]" ;;
+    -h | --help)
+        usage
+        exit 0
+        ;;
+    up | enter) ;;
+    *) die "Unknown command: $cmd." "Please check help [devc --help]" ;;
     esac
 
     needs docker
@@ -28,7 +34,7 @@ main() {
 }
 
 usage() {
-    cat << EOF
+    cat <<EOF
 devc up [options] -- [extra-options]
 devc down [options] -- [extra-options] 
 devc exec
@@ -36,33 +42,29 @@ devc -h|--help
 EOF
 }
 
-resolve_agent(){
-    if [[ -n ${DEVC_SSH_AUTH_SOCK:-} ]]; then
-        printf '%s\n' "$DEVC_SSH_AUTH_SOCK"
-    elif [[ $(uname -s) == Darwin ]]; then 
-        echo "/run/host-services/ssh-auth.sock"
-    elif [[ -S ${SSH_AUTH_SOCK:-} ]]; then
-        printf '%s\n' "$SSH_AUTH_SOCK"
-    fi
-}
+cmd_up() {
+    DIR=""
+    ID=""
+    RECREATE=0
+    CLI=()
 
-cmd_up(){
-    DIR=""; ID=""; CLI=();
     while (($#)); do
-        case $1 in 
-            # --) shift; CLI=("$@"); break ;; Not needed for now
-            -i|--id)
-                (($# >= 2)) || die "Missing value for $1"
-                ID=$2
-                shift
-                ;;
-            -d|--dotfiles)
-                (($# >= 2)) || die "Missing value for $1"
-                DEVC_DOTFILES=$2
-                shift
-                ;;
-            -*) die "Unknown option: $1" ;;
-            *) DIR=$1;;
+        case $1 in
+        -i | --id)
+            (($# >= 2)) || die "Missing value for $1"
+            ID=$2
+            shift
+            ;;
+        -d | --dotfiles)
+            (($# >= 2)) || die "Missing value for $1"
+            DEVC_DOTFILES=$2
+            shift
+            ;;
+        -r | --recreate)
+            RECREATE=1
+            ;;
+        -*) die "Unknown option: $1" ;;
+        *) DIR=$1 ;;
         esac
         shift
     done
@@ -71,7 +73,7 @@ cmd_up(){
     [[ -n $DEVC_DOTFILES ]] && CLI+=(--dotfiles-repository "$DEVC_DOTFILES")
     [[ -n $DIR ]] && CLI+=(--workspace-folder "$DIR")
     [[ -n $ID ]] && CLI+=(--id-label "id=$ID")
-
+    [[ -n $RECREATE ]] && CLI+=(--remove-existing-container)
     if [[ -n $DEVC_SSH_AGENT ]]; then
         AGENT_SRC=$(resolve_agent)
         if [[ -n $AGENT_SRC ]]; then
@@ -82,13 +84,36 @@ cmd_up(){
         fi
     fi
 
-    local out
-    # echo "devcontainer up "${CLI[@]}""
-    if ! out=$(devcontainer up --log-level debug "${CLI[@]}"); then
-        printf '%s\n' "$out" >&2
-        return 1
+    devcontainer up --log-level trace "${CLI[@]}"
+
+    # Only Darwin's socket is a root-owned Docker Desktop VM proxy; on Linux
+    # AGENT_SRC is the user's real host ssh-agent socket, already accessible.
+    if [[ $(uname -s) == Darwin && -n $DEVC_SSH_AGENT && -n ${AGENT_SRC:-} ]]; then
+        if ! devcontainer exec --workspace-folder "$DIR" bash -c \
+            "sudo -n chmod 666 '$AGENT_TARGET' 2>/dev/null || chmod 666 '$AGENT_TARGET'"; then
+            log "Could not relax permissions on $AGENT_TARGET; ssh-agent forwarding may not work inside the container"
+        fi
     fi
 }
 
+cmd_enter() {
+    DIR=$(cd "${1:-$PWD}" && pwd)
+    CLI=(--workspace-folder "$DIR")
+    if [[ -n $DEVC_SSH_AGENT ]]; then
+        CLI+=(--remote-env "SSH_AUTH_SOCK=$AGENT_TARGET")
+    fi
+
+    devcontainer exec --log-level debug "${CLI[@]}" bash -l
+}
+
+resolve_agent() {
+    if [[ -n ${DEVC_SSH_AUTH_SOCK:-} ]]; then
+        printf '%s\n' "$DEVC_SSH_AUTH_SOCK"
+    elif [[ $(uname -s) == Darwin ]]; then
+        echo "/run/host-services/ssh-auth.sock"
+    elif [[ -S ${SSH_AUTH_SOCK:-} ]]; then
+        printf '%s\n' "$SSH_AUTH_SOCK"
+    fi
+}
 
 main "$@"
