@@ -8,6 +8,8 @@ require("conform").setup({
 		typescript = { "prettier" },
 		javascript = { "prettier" },
 		java = { "google-java-format" },
+		bash = { "shfmt" },
+		sh = { "shfmt" },
 	},
 })
 
