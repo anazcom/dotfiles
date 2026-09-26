@@ -1,10 +1,4 @@
 #!/usr/bin/env bash
-# tms — tmux sessionizer with three modes
-#   tms [dir]        folder session (classic sessionizer)
-#   tms ssh [host]   every pane/window in the session ssh's into host
-#   tms dc [dir]     bring up the devcontainer, every pane/window lands inside it
-#   tms dc-reap      stop containers whose tms dc session no longer exists
-#   tms dc-stop dir  stop the devcontainer (and its compose siblings) for dir
 set -euo pipefail
 
 : "${TMS_SEARCH_PATHS:=$HOME/repos $HOME/repos/work $HOME/repos/work/lab $HOME/repos/personal $HOME/repos/personal/lab $HOME/.config}"
@@ -17,6 +11,28 @@ die() {
     exit 1
 }
 sanitize() { basename -- "$1" | tr '.: ' '___'; }
+
+usage() {
+    cat <<EOF
+tms — tmux sessionizer with multiple modes
+
+Usage: tms <command> [args]
+
+Commands:
+  [dir]          Folder session, classic sessionizer (default: fzf picker over \$TMS_SEARCH_PATHS)
+  ssh   [host]   Every pane/window in the session ssh's into host (default: fzf picker over ~/.ssh/config)
+  dc    [dir]    Bring up the devcontainer (devc up); every pane/window lands inside it (devc enter)
+
+Env:
+  TMS_SEARCH_PATHS  Dirs to search for folder/devcontainer sessions
+                    (default: $TMS_SEARCH_PATHS)
+  TMS_DEPTH         Max search depth under each search path (default: $TMS_DEPTH)
+  TMS_SSH_EXCLUDE   Space separated ssh hosts hidden from the picker
+                    (default: $TMS_SSH_EXCLUDE)
+
+tms -h | --help     Show this help
+EOF
+}
 
 pick_dir() {
     find $TMS_SEARCH_PATHS -mindepth 1 -maxdepth "$TMS_DEPTH" -type d 2>/dev/null |
@@ -98,6 +114,6 @@ dc)
     shift
     cmd_dc "$@"
     ;;
--h | --help) sed -n '2,7p' "$0" ;;
+-h | --help) usage ;;
 *) exit 0 ;;
 esac
