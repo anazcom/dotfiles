@@ -69,7 +69,7 @@ cmd_up() {
         shift
     done
 
-    DIR=$(cd "$DIR" && pwd)
+    DIR=$(cd "${DIR:-$PWD}" && pwd)
     [[ -n $DEVC_DOTFILES ]] && CLI+=(--dotfiles-repository "$DEVC_DOTFILES")
     [[ -n $DIR ]] && CLI+=(--workspace-folder "$DIR")
     [[ -n $ID ]] && CLI+=(--id-label "id=$ID")
@@ -97,13 +97,24 @@ cmd_up() {
 }
 
 cmd_enter() {
-    DIR=$(cd "${1:-$PWD}" && pwd)
+    while (($#)); do
+        case $1 in
+        -s | --shell)
+            (($# >= 2)) || die "Missing value for $1"
+            SHELL=$2
+            shift
+            ;;
+        *) DIR=$1 ;;
+        esac
+        shift
+    done
+    DIR=$(cd "${DIR:-$PWD}" && pwd)
     CLI=(--workspace-folder "$DIR")
     if [[ -n $DEVC_SSH_AGENT ]]; then
         CLI+=(--remote-env "SSH_AUTH_SOCK=$AGENT_TARGET")
     fi
 
-    devcontainer exec --log-level debug "${CLI[@]}" bash -l
+    devcontainer exec --log-level debug "${CLI[@]}" $SHELL -l
 }
 
 resolve_agent() {
