@@ -24,7 +24,7 @@ main() {
         usage
         exit 0
         ;;
-    up | enter) ;;
+    up | enter | down | delete) ;;
     *) die "Unknown command: $cmd." "Please check help [devc --help]" ;;
     esac
 
@@ -115,6 +115,37 @@ cmd_enter() {
     fi
 
     devcontainer exec --log-level debug "${CLI[@]}" $SHELL -l
+}
+
+main_container() { docker ps -aq --filter "label=devcontainer.local_folder=$1" | head -n1; }
+compose_project() {
+    docker inspect -f '{{with index .Config.Labels "com.docker.compose.project"}}{{.}}{{end}}' "$1"
+}
+
+cmd_down() {
+    DIR=$(cd "${1:-$PWD}" && pwd)
+    CLI=()
+    ID=$(main_container "$DIR") || return 0
+    PROJECT=$(compose_project "$ID")
+
+    if [[ -n $PROJECT ]]; then
+        docker compose -p "$PROJECT" stop >&2
+    else
+        docker stop "$ID" >/dev/null
+    fi
+}
+
+cmd_delete() {
+    DIR=$(cd "${1:-$PWD}" && pwd)
+    CLI=()
+    ID=$(main_container "$DIR") || return 0
+    PROJECT=$(compose_project "$ID")
+
+    if [[ -n $PROJECT ]]; then
+        docker compose -p "$PROJECT" down >&2
+    else
+        docker rm -f "$ID" >/dev/null
+    fi
 }
 
 resolve_agent() {
